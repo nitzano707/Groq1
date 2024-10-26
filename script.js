@@ -21,7 +21,7 @@ async function uploadAudio() {
         const response = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
             method: 'POST',
             headers: {
-                'Authorization': 'Bearer YOUR_GROQ_API_KEY' // יש להחליף במפתח ה-API האישי שלך
+                'Authorization': 'Bearer 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' // יש להחליף במפתח ה-API האישי שלך
             },
             body: formData
         });
