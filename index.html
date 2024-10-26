@@ -8,15 +8,11 @@
 <body>
     <h1>העלאת קובץ אודיו ותמלול לעברית</h1>
     <input type="file" id="audioFile" accept="audio/*">
-    <button id="uploadBtn">העלה ותמלל</button>
+    <button onclick="uploadAudio()">העלה ותמלל</button>
     <button onclick="downloadTranscription()" id="downloadBtn" style="display:none;">הורד תמלול כ-TXT</button>
     <div id="response"></div>
 
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById('uploadBtn').onclick = uploadAudio;
-    });
-
     async function uploadAudio() {
         const responseDiv = document.getElementById('response');
         const audioFile = document.getElementById('audioFile').files[0];
@@ -51,7 +47,7 @@
                 data.segments.forEach(segment => {
                     htmlContent += `<p><strong>${segment.start}s</strong><br>${segment.text}</p>`;
                 });
-                responseDiv.innerHTML = htmlContent;
+                responseDiv.innerHTML = htmlContent; // הצגת תמלול ב-div ולא ב-srcdoc של iframe
                 downloadBtn.style.display = 'block';
                 downloadBtn.onclick = () => downloadTranscription(data);
             } else {
