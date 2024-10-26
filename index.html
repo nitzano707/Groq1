@@ -10,7 +10,7 @@
     <input type="file" id="audioFile" accept="audio/*">
     <button onclick="uploadAudio()">העלה ותמלל</button>
     <button onclick="downloadTranscription()" id="downloadBtn" style="display:none;">הורד תמלול כ-TXT</button>
-    <div id="response" style="overflow-y: scroll; max-height: 300px;"></div>
+    <div id="response"></div>
 
     <script>
     async function uploadAudio() {
@@ -20,6 +20,12 @@
 
         if (!audioFile) {
             responseDiv.textContent = 'אנא בחר קובץ אודיו.';
+            return;
+        }
+
+        // בדיקה אם הקובץ חורג מ-25 מגה
+        if (audioFile.size > 25 * 1024 * 1024) {
+            responseDiv.textContent = 'הקובץ חורג מ-25 מגה. אנא בחר קובץ קטן יותר.';
             return;
         }
 
