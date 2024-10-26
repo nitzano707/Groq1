@@ -14,9 +14,9 @@
 
     <script>
     async function uploadAudio() {
-        const responseDiv = document.getElementById('response');
-        const audioFile = document.getElementById('audioFile').files[0];
-        const downloadBtn = document.getElementById('downloadBtn');
+        
+        
+        
 
         if (!audioFile) {
             responseDiv.innerHTML = '<p>אנא בחר קובץ אודיו.</p>';
@@ -98,13 +98,14 @@
         const m = Math.floor((seconds / 60) % 60).toString().padStart(2, '0');
         return `${m}:${s}.${ms}`;
     }
-            console.log('Upload audio function called.');
+            
         if (audioFile.size > 25 * 1024 * 1024) {
-            console.log('File exceeds 25MB. Aborting upload.');
+            
             responseDiv.textContent = 'הקובץ חורג מ-25 מגה. אנא בחר קובץ קטן יותר.';
             return;
         }
 
 </script>
+
 </body>
 </html>
