@@ -50,7 +50,7 @@
                 });
                 responseDiv.innerHTML = htmlContent;
                 downloadBtn.style.display = 'block';
-                downloadBtn.onclick = () => downloadTranscription(data);
+                downloadBtn.onclick = () => downloadTranscription(data, audioFile.name);
             } else {
                 responseDiv.textContent = 'שגיאה בבקשה: ' + response.statusText;
             }
@@ -59,8 +59,8 @@
         }
     }
 
-    function downloadTranscription(data) {
-        let textContent = '';
+    function downloadTranscription(data, fileName) {
+        let textContent = `תמלול של קובץ אודיו: ${fileName}\n\n`;
         data.segments.forEach(segment => {
             const startTime = formatTime(segment.start);
             textContent += `${startTime}: ${segment.text}\n`;
@@ -73,10 +73,10 @@
     }
 
     function formatTime(seconds) {
-        const ms = Math.floor((seconds % 1) * 1000).toString().padStart(3, '0');
+        const ms = Math.floor((seconds % 1) * 10).toString().padStart(1, '0');
         const s = Math.floor(seconds % 60).toString().padStart(2, '0');
         const m = Math.floor((seconds / 60) % 60).toString().padStart(2, '0');
-        return `${m}:${s}:${ms}`;
+        return `${m}:${s}.${ms}`;
     }
     </script>
 </body>
