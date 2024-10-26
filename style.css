@@ -1,0 +1,36 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+iframe {
+    width: 100%;
+    height: 300px;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+    overflow-y: scroll;
+}
+
+#response {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    min-height: 50px;
+}
+
+#downloadBtn {
+    display: none;
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
