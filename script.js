@@ -1,20 +1,18 @@
 async function uploadAudio() {
-    const responseDiv = document.getElementById('responseFrame');
+    const responseDiv = document.getElementById('response');
     const audioFile = document.getElementById('audioFile').files[0];
-    const downloadBtn = document.getElementById('downloadBtn');
 
     if (!audioFile) {
-        responseDiv.srcdoc = '<p>אנא בחר קובץ אודיו.</p>';
+        responseDiv.textContent = 'אנא בחר קובץ אודיו.';
         return;
     }
 
-    responseDiv.srcdoc = '<p>מעבד את הבקשה...</p>';
-    downloadBtn.style.display = 'none';
+    responseDiv.textContent = 'מעבד את הבקשה...';
 
     const formData = new FormData();
     formData.append('file', audioFile);
     formData.append('model', 'whisper-large-v3-turbo');
-    formData.append('response_format', 'verbose_json');
+    formData.append('response_format', 'json');
     formData.append('language', 'he');
 
     try {
@@ -28,29 +26,11 @@ async function uploadAudio() {
 
         if (response.ok) {
             const data = await response.json();
-            let htmlContent = '';
-            data.segments.forEach(segment => {
-                htmlContent += `<p><strong>${segment.start}s</strong><br>${segment.text}</p>`;
-            });
-            responseDiv.srcdoc = htmlContent;
-            downloadBtn.style.display = 'block';
-            downloadBtn.onclick = () => downloadTranscription(data);
+            responseDiv.textContent = data.text;
         } else {
-            responseDiv.srcdoc = `<p>שגיאה בבקשה: ${response.statusText}</p>`;
+            responseDiv.textContent = 'שגיאה בבקשה: ' + response.statusText;
         }
     } catch (error) {
-        responseDiv.srcdoc = `<p>אירעה שגיאה: ${error.message}</p>`;
+        responseDiv.textContent = 'אירעה שגיאה: ' + error.message;
     }
-}
-
-function downloadTranscription(data) {
-    let textContent = '';
-    data.segments.forEach(segment => {
-        textContent += `${segment.start}s: ${segment.text}\n`;
-    });
-    const blob = new Blob([textContent], { type: 'text/plain' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'transcription.txt';
-    link.click();
 }
