@@ -8,11 +8,15 @@
 <body>
     <h1>העלאת קובץ אודיו ותמלול לעברית</h1>
     <input type="file" id="audioFile" accept="audio/*">
-    <button onclick="uploadAudio()">העלה ותמלל</button>
+    <button id="uploadBtn">העלה ותמלל</button>
     <button onclick="downloadTranscription()" id="downloadBtn" style="display:none;">הורד תמלול כ-TXT</button>
     <div id="response"></div>
 
     <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById('uploadBtn').onclick = uploadAudio;
+    });
+
     async function uploadAudio() {
         const responseDiv = document.getElementById('response');
         const audioFile = document.getElementById('audioFile').files[0];
