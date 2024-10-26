@@ -10,7 +10,7 @@
     <input type="file" id="audioFile" accept="audio/*">
     <button onclick="uploadAudio()">העלה ותמלל</button>
     <button onclick="downloadTranscription()" id="downloadBtn" style="display:none;">הורד תמלול כ-TXT</button>
-    <div id="response"></div>
+    <div id="response" style="overflow-y: scroll; max-height: 300px;"></div>
 
     <script>
     async function uploadAudio() {
@@ -45,9 +45,10 @@
                 const data = await response.json();
                 let htmlContent = '';
                 data.segments.forEach(segment => {
-                    htmlContent += `<p><strong>${segment.start}s</strong><br>${segment.text}</p>`;
+                    const startTime = formatTime(segment.start);
+                    htmlContent += `<p><strong>${startTime}</strong><br>${segment.text}</p>`;
                 });
-                responseDiv.innerHTML = htmlContent; // הצגת תמלול ב-div ולא ב-srcdoc של iframe
+                responseDiv.innerHTML = htmlContent;
                 downloadBtn.style.display = 'block';
                 downloadBtn.onclick = () => downloadTranscription(data);
             } else {
@@ -61,13 +62,21 @@
     function downloadTranscription(data) {
         let textContent = '';
         data.segments.forEach(segment => {
-            textContent += `${segment.start}s: ${segment.text}\n`;
+            const startTime = formatTime(segment.start);
+            textContent += `${startTime}: ${segment.text}\n`;
         });
         const blob = new Blob([textContent], { type: 'text/plain' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
         link.download = 'transcription.txt';
         link.click();
+    }
+
+    function formatTime(seconds) {
+        const ms = Math.floor((seconds % 1) * 1000).toString().padStart(3, '0');
+        const s = Math.floor(seconds % 60).toString().padStart(2, '0');
+        const m = Math.floor((seconds / 60) % 60).toString().padStart(2, '0');
+        return `${m}:${s}:${ms}`;
     }
     </script>
 </body>
